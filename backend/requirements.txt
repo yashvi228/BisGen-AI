@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pandas
+numpy
+openpyxl
+duckdb
+scikit-learn
+sqlalchemy
+psycopg2-binary
+python-dotenv
