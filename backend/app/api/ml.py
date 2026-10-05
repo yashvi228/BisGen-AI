@@ -10,7 +10,10 @@ router = APIRouter(
 )
 
 
-DATASET_PATH = "../datasets/superstore_cleaned.csv"
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+DATASET_PATH = BASE_DIR / "datasets" / "superstore_cleaned.csv"
 
 
 @router.get("/forecast")
