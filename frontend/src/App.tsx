@@ -1,66 +1,58 @@
-import { useState } from 'react';
-import Dashboard from './pages/Dashboard';
-import AIChat from './pages/AIChat';
-import DataUpload from './pages/DataUpload';
-import { LayoutDashboard, MessageSquare, Upload } from 'lucide-react';
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import Sidebar, { NavTab } from "./components/Sidebar";
+import Header from "./components/Header";
+import Dashboard from "./pages/Dashboard";
+import AIChat from "./pages/AIChat";
+import DataUpload from "./pages/DataUpload";
 
-const App = () => {
-  const [currentRoute, setCurrentRoute] = useState('/');
+export default function App() {
+  const [activeTab, setActiveTab] = useState<NavTab>("dashboard");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isBackendOnline, setIsBackendOnline] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const renderContent = () => {
-    switch (currentRoute) {
-      case '/':
-        return <Dashboard />;
-      case '/chat':
-        return <AIChat />;
-      case '/upload':
-        return <DataUpload />;
-      default:
-        return <Dashboard />;
-    }
+  const queryClient = useQueryClient();
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await queryClient.invalidateQueries();
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 600);
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <aside className="w-64 bg-white shadow-md flex flex-col">
-        <div className="p-6">
-          <h1 className="text-xl font-bold text-gray-800">BisGen AI</h1>
-          <p className="text-sm text-gray-500">Business Intelligence Agent</p>
-        </div>
-        <nav className="flex-1 px-4 space-y-2">
-          <button 
-            onClick={() => setCurrentRoute('/')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${currentRoute === '/' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
-          >
-            <LayoutDashboard size={20} />
-            <span className="font-medium">Dashboard</span>
-          </button>
-          <button 
-            onClick={() => setCurrentRoute('/chat')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${currentRoute === '/chat' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
-          >
-            <MessageSquare size={20} />
-            <span className="font-medium">AI Chat</span>
-          </button>
-          <button 
-            onClick={() => setCurrentRoute('/upload')} 
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${currentRoute === '/upload' ? 'bg-blue-50 text-blue-600' : 'text-gray-700 hover:bg-gray-50'}`}
-          >
-            <Upload size={20} />
-            <span className="font-medium">Upload Data</span>
-          </button>
-        </nav>
-      </aside>
+    <div className="flex min-h-screen bg-slate-50/60 text-gray-900 font-sans antialiased">
+      {/* Sidebar navigation */}
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        isOpen={sidebarOpen}
+        setIsOpen={setSidebarOpen}
+        isBackendOnline={isBackendOnline}
+      />
 
-      {/* Main Content */}
-      <main className="flex-1 overflow-y-auto">
-        <div className="p-8">
-          {renderContent()}
-        </div>
-      </main>
+      {/* Main content wrapper */}
+      <div className="flex flex-1 flex-col min-w-0">
+        {/* Top Header bar */}
+        <Header
+          activeTab={activeTab}
+          onMenuClick={() => setSidebarOpen(true)}
+          onRefresh={handleRefresh}
+          isRefreshing={isRefreshing}
+          isBackendOnline={isBackendOnline}
+        />
+
+        {/* Dynamic page content */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+          {activeTab === "dashboard" && (
+            <Dashboard onBackendStatusChange={setIsBackendOnline} />
+          )}
+          {activeTab === "chat" && <AIChat />}
+          {activeTab === "upload" && <DataUpload />}
+        </main>
+      </div>
     </div>
   );
-};
-
-export default App;
+}
