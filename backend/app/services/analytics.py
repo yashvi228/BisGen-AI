@@ -20,6 +20,15 @@ class AnalyticsService:
         """
 
         result = self.db.query(query)
+        if result is None or result.empty:
+            return {
+                "total_sales": 0,
+                "total_profit": 0,
+                "total_quantity": 0,
+                "total_orders": 0,
+                "total_customers": 0,
+                "total_returns": 0,
+            }
 
         return result.iloc[0].to_dict()
 
@@ -34,7 +43,11 @@ class AnalyticsService:
             ORDER BY total_sales DESC
         """
 
-        return self.db.query(query).to_dict(
+        df = self.db.query(query)
+        if df is None or df.empty:
+            return []
+
+        return df.to_dict(
             orient="records"
         )
 
@@ -49,7 +62,11 @@ class AnalyticsService:
             ORDER BY total_profit DESC
         """
 
-        return self.db.query(query).to_dict(
+        df = self.db.query(query)
+        if df is None or df.empty:
+            return []
+
+        return df.to_dict(
             orient="records"
         )
 
@@ -65,7 +82,11 @@ class AnalyticsService:
             LIMIT {limit}
         """
 
-        return self.db.query(query).to_dict(
+        df = self.db.query(query)
+        if df is None or df.empty:
+            return []
+
+        return df.to_dict(
             orient="records"
         )
 
@@ -84,6 +105,10 @@ class AnalyticsService:
             ORDER BY month
         """
 
-        return self.db.query(query).to_dict(
+        df = self.db.query(query)
+        if df is None or df.empty:
+            return []
+
+        return df.to_dict(
             orient="records"
         )

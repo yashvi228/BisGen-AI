@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.analytics import router as analytics_router
-
+from app.api.ml import router as ml_router
 
 app = FastAPI(
     title="AI Business Intelligence Agent",
@@ -46,3 +46,4 @@ def health():
     return {
         "status": "healthy"
     }
+app.include_router(ml_router)
