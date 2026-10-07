@@ -6,6 +6,7 @@ import Toast, { ToastMessage } from "./components/Toast";
 import CommandPalette from "./components/CommandPalette";
 import Dashboard from "./pages/Dashboard";
 import Forecast from "./pages/forecast";
+import AnomalyDetection from "./pages/AnomalyDetection";
 import AIChat from "./pages/AIChat";
 import DataUpload from "./pages/DataUpload";
 
@@ -117,6 +118,9 @@ export default function App() {
             />
           )}
           {activeTab === "forecast" && <Forecast onShowToast={addToast} />}
+          {activeTab === "anomalies" && (
+            <AnomalyDetection onShowToast={addToast} />
+          )}
           {activeTab === "chat" && <AIChat onShowToast={addToast} />}
           {activeTab === "upload" && <DataUpload onShowToast={addToast} />}
         </main>

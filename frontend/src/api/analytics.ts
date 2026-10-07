@@ -24,3 +24,13 @@ export const getSalesByMonth = async () => {
   const response = await api.get("/api/analytics/sales-by-month");
   return response.data.data;
 };
+
+export const getAnomalies = async (contamination: number = 0.01, limit: number = 50) => {
+  const response = await api.get(`/api/analytics/anomalies?contamination=${contamination}&limit=${limit}`);
+  return response.data.data;
+};
+
+export const getCustomerSegmentation = async (clusters: number = 4) => {
+  const response = await api.get(`/api/analytics/segmentation?clusters=${clusters}`);
+  return response.data.data;
+};

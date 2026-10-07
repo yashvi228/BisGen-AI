@@ -12,9 +12,17 @@ import {
   Building2,
   SlidersHorizontal,
   BrainCircuit,
+  ShieldAlert,
+  Users,
 } from "lucide-react";
 
-export type NavTab = "dashboard" | "forecast" | "chat" | "upload";
+export type NavTab =
+  | "dashboard"
+  | "forecast"
+  | "anomalies"
+  | "segmentation"
+  | "chat"
+  | "upload";
 
 interface SidebarProps {
   activeTab: NavTab;
@@ -47,6 +55,20 @@ export default function Sidebar({
       description: "Predictive ML models",
       icon: BrainCircuit,
       badge: "AI",
+    },
+    {
+      id: "anomalies" as NavTab,
+      label: "Anomaly Detection",
+      description: "Isolation Forest outliers",
+      icon: ShieldAlert,
+      badge: "ML",
+    },
+    {
+      id: "segmentation" as NavTab,
+      label: "Customer Cohorts",
+      description: "K-Means RFM segmentation",
+      icon: Users,
+      badge: "K-Means",
     },
     {
       id: "chat" as NavTab,

@@ -29,6 +29,14 @@ const tabTitles: Record<NavTab, { title: string; subtitle: string }> = {
     title: "Predictive Sales Forecast",
     subtitle: "Scikit-Learn machine learning regression algorithms trained on historical data",
   },
+  anomalies: {
+    title: "Transaction Anomaly Detection",
+    subtitle: "Unsupervised Isolation Forest algorithm isolating suspicious orders and severe loss leaders",
+  },
+  segmentation: {
+    title: "Customer RFM Segmentation",
+    subtitle: "Unsupervised K-Means clustering across Recency, Frequency, and Monetary parameters",
+  },
   chat: {
     title: "AI Business Analyst",
     subtitle: "Natural language query engine powered by DuckDB & LLM Agent",

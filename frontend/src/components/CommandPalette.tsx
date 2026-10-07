@@ -9,6 +9,7 @@ import {
   RefreshCw,
   X,
   BrainCircuit,
+  ShieldAlert,
 } from "lucide-react";
 import { NavTab } from "./Sidebar";
 
@@ -63,6 +64,16 @@ export default function CommandPalette({
       icon: BrainCircuit,
       action: () => {
         onNavigate("forecast");
+        onClose();
+      },
+    },
+    {
+      category: "Navigation",
+      title: "Transaction Anomaly Detection",
+      subtitle: "Unsupervised Isolation Forest algorithm for fraud & outlier detection",
+      icon: ShieldAlert,
+      action: () => {
+        onNavigate("anomalies");
         onClose();
       },
     },
